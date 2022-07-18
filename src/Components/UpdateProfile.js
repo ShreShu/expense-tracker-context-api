@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./UpdateProfile.css";
 import axios from "axios";
 import AuthContext from "../Store/AuthContext";
@@ -17,6 +17,24 @@ const UpdateProfile = () => {
     setPhotoUrl(e.target.value);
   };
 
+  useEffect(() => {
+    axios
+      .post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
+        {
+          idToken: authCtx.tokenId,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setName(res.data?.users[0]?.displayName);
+        setPhotoUrl(res.data?.users[0]?.photoUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const submitFormHandler = (event) => {
     event.preventDefault();
     axios
@@ -26,7 +44,6 @@ const UpdateProfile = () => {
           idToken: authCtx.tokenId,
           displayName: name,
           photoUrl: photoUrl,
-          deleteAttribute: "PHOTO_URL",
           returnSecureToken: true,
         }
       )
@@ -50,6 +67,7 @@ const UpdateProfile = () => {
               className="form-control form-control-sm"
               placeholder="Full name"
               onChange={onNameChange}
+              value={name}
             />
           </div>
           <div className="col">
@@ -60,6 +78,7 @@ const UpdateProfile = () => {
               className="form-control form-control-sm"
               placeholder="URL"
               onChange={onUrlChange}
+              value={photoUrl}
             />
           </div>
         </div>
