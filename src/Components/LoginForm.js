@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignUpForm.css";
-const SignUpForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,11 +36,13 @@ const SignUpForm = () => {
 
     axios
       .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
         { email: email, password: password, returnSecureToken: true }
       )
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          navigate("/home");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -50,12 +52,12 @@ const SignUpForm = () => {
   };
   const showAlert = (event) => {
     event.preventDefault();
-    navigate("/login");
+    navigate("/signup");
   };
   return (
     <div>
       <form className="sign-up-form">
-        <h3 className="signup-heading">Sign Up</h3>
+        <h3 className="signup-heading">Login</h3>
         <div className="form-group">
           <label htmlFor="email">Email address</label>
           <input
@@ -80,14 +82,14 @@ const SignUpForm = () => {
         </div>
         <span>{passwordError}</span>
         <button onClick={formSubmitHandler} className="btn btn-primary ">
-          Submit
+          Login
         </button>
         <button onClick={showAlert} className="btn btn-outline-primary ">
-          Have an account? login
+          Don't have a account? Sign up
         </button>
       </form>
     </div>
   );
 };
 
-export default SignUpForm;
+export default LoginForm;

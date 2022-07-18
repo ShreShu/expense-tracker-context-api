@@ -3,14 +3,34 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SignUpForm from "./Components/SignUpForm";
 import Navbar from "./Components/Navbar";
+import { Routes, Route } from "react-router-dom";
+import LoginForm from "./Components/LoginForm";
+import HomePage from "./Components/HomePage";
 
 function App() {
   return (
     <div>
       <Navbar />
-      <div className="sign-up">
-        <SignUpForm />
-      </div>
+
+      <Routes>
+        <Route
+          path="/signup"
+          element={
+            <div className="sign-up">
+              <SignUpForm />
+            </div>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <div className="sign-up">
+              <LoginForm />
+            </div>
+          }
+        />
+        <Route path="/home" element={<HomePage />} />
+      </Routes>
     </div>
   );
 }
