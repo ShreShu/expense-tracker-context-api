@@ -6,6 +6,7 @@ import AuthContext from "../Store/AuthContext";
 const UpdateProfile = () => {
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
+  const [mailIsVerified, setMailIsVerified] = useState();
   const authCtx = useContext(AuthContext);
 
   const onNameChange = (e) => {
@@ -29,6 +30,7 @@ const UpdateProfile = () => {
         console.log(res);
         setName(res.data?.users[0]?.displayName);
         setPhotoUrl(res.data?.users[0]?.photoUrl);
+        setMailIsVerified(res.data?.users[0]?.emailVerified);
       })
       .catch((error) => {
         console.log(error);
@@ -55,6 +57,22 @@ const UpdateProfile = () => {
       });
   };
 
+  const verifyEmailHandler = () => {
+    axios
+      .post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
+        {
+          requestType: "VERIFY_EMAIL",
+          idToken: authCtx.tokenId,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        alert(error.response?.data?.error?.message);
+      });
+  };
   return (
     <div className="update__profile">
       <form onSubmit={submitFormHandler}>
@@ -87,6 +105,14 @@ const UpdateProfile = () => {
           Submit
         </button>
       </form>
+      {!mailIsVerified && (
+        <button
+          className="update__profile__button"
+          onClick={verifyEmailHandler}
+        >
+          Verify your mail ID
+        </button>
+      )}
     </div>
   );
 };

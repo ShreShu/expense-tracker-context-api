@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import AuthContext from "../Store/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const loginlogoutHandler = () => {
+    if (!authCtx.isloggedin) {
+      navigate("/login");
+    } else {
+      authCtx.logout();
+      navigate("/login");
+    }
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,6 +49,15 @@ const Navbar = () => {
               <NavLink className="nav-link" to="#">
                 About Us
               </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <button
+                onClick={loginlogoutHandler}
+                className="nav-link btn btn-link"
+              >
+                {authCtx.isloggedin ? "Logout" : "Login"}
+              </button>
             </li>
           </ul>
         </div>
