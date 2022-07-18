@@ -1,0 +1,16 @@
+.sign-up-form > button{
+    border-radius: 20px;
+  
+    margin-top: 10px;
+    width: 100%;
+  }
+
+.sign-up-form{
+  border: 1px solid rgb(227, 227, 227);
+  padding: 70px 30px;
+}
+
+.signup-heading{
+  text-align: center;
+  padding-bottom: 30px;
+}
