@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginForm from "./Components/LoginForm";
 import HomePage from "./Components/HomePage";
 import UpdateProfile from "./Components/UpdateProfile";
+import ForgotPassword from "./Components/ForgotPassword";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         />
         <Route path="/home" element={<HomePage />} />
         <Route path="/updateprofile" element={<UpdateProfile />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
       </Routes>
     </div>
   );

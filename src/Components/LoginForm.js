@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../Store/AuthContext";
+import { NavLink } from "react-router-dom";
 import "./SignUpForm.css";
 const LoginForm = () => {
   const authCtx = useContext(AuthContext);
@@ -58,6 +59,11 @@ const LoginForm = () => {
     event.preventDefault();
     navigate("/signup");
   };
+
+  const forgotPasswordHandler = () => {
+    navigate("/forgotpassword");
+  };
+
   return (
     <div>
       <form className="sign-up-form">
@@ -87,6 +93,13 @@ const LoginForm = () => {
         <span>{passwordError}</span>
         <button onClick={formSubmitHandler} className="btn btn-primary ">
           Login
+        </button>
+        <button
+          onClick={forgotPasswordHandler}
+          className="btn btn-link"
+          to="/forgotPassword"
+        >
+          Forgot password
         </button>
         <button onClick={showAlert} className="btn btn-outline-primary ">
           Don't have a account? Sign up
