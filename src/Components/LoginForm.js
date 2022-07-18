@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../Store/AuthContext";
 import "./SignUpForm.css";
 const LoginForm = () => {
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,6 +43,8 @@ const LoginForm = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          console.log(res);
+          authCtx.login(res.data.idToken);
           navigate("/home");
         }
       })

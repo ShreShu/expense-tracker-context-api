@@ -6,6 +6,7 @@ import Navbar from "./Components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import LoginForm from "./Components/LoginForm";
 import HomePage from "./Components/HomePage";
+import UpdateProfile from "./Components/UpdateProfile";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           }
         />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/updateprofile" element={<UpdateProfile />} />
       </Routes>
     </div>
   );
