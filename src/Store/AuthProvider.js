@@ -29,10 +29,12 @@ const AuthProvider = (props) => {
 
   const login = (tokenId) => {
     dispatchLoginAction({ type: "LOGIN", tokenId: tokenId });
+    localStorage.setItem("token", tokenId);
   };
 
   const logout = () => {
     dispatchLoginAction({ type: "LOGOUT" });
+    localStorage.removeItem("token");
   };
 
   const authContext = {
