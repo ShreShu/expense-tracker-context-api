@@ -8,11 +8,15 @@ import LoginForm from "./Components/LoginForm";
 import HomePage from "./Components/HomePage";
 import UpdateProfile from "./Components/UpdateProfile";
 import ForgotPassword from "./Components/ForgotPassword";
+import AuthContext from "./Store/AuthContext";
+import { useContext } from "react";
 
 function App() {
+  const authCtx = useContext(AuthContext);
+
   return (
     <div>
-      <Navbar />
+      {authCtx.isloggedin && <Navbar />}
 
       <Routes>
         <Route
@@ -31,9 +35,19 @@ function App() {
             </div>
           }
         />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/updateprofile" element={<UpdateProfile />} />
+        {authCtx.isloggedin && <Route path="/home" element={<HomePage />} />}
+        {authCtx.isloggedin && (
+          <Route path="/updateprofile" element={<UpdateProfile />} />
+        )}
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route
+          path="*"
+          element={
+            <div className="sign-up">
+              <LoginForm />
+            </div>
+          }
+        />
       </Routes>
     </div>
   );

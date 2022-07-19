@@ -1,0 +1,13 @@
+.expenses{
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+width: 70%;
+margin-left:7% ;
+font-weight: bold;
+border-bottom: 1px solid gray;
+}
+
+.expenses__item{
+    margin-top: 10px;
+}
