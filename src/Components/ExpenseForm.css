@@ -30,7 +30,7 @@ padding-left:10px ;
     border-color: brown;
 }
 
-.expense-form>button:hover{
+.expense-form>button:hover {
     background-color: rgb(128, 32, 32);
     border-color: brown;
     font-weight: bold;

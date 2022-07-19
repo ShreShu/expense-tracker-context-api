@@ -1,7 +1,10 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import AuthContext from "../Store/AuthContext";
+import { formatEmail } from "../Util/UserNameFormat";
 import "./ExpenseForm.css";
 const ExpenseForm = () => {
+  const userEmail = formatEmail(localStorage.getItem("userMail"));
   const authCtx = useContext(AuthContext);
   const [description, setDescription] = useState("");
   const [money, setMoney] = useState("");
@@ -19,7 +22,22 @@ const ExpenseForm = () => {
   };
   const formSubmitHandler = (e) => {
     e.preventDefault();
-    authCtx.addexpense({ money, category, description });
+
+    axios
+      .post(
+        `https://expense-tracker-4a29f-default-rtdb.firebaseio.com/${userEmail}.json`,
+        {
+          money,
+          category,
+          description,
+        }
+      )
+      .then((res) => {
+        authCtx.addexpense({ money, category, description });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     //  console.log({ category, money, description });
   };
   return (
@@ -46,11 +64,12 @@ const ExpenseForm = () => {
             id="description"
             placeholder="description"
             onChange={descriptionChange}
+            required
           />
         </div>
         <div className="form-group">
-          <select className="custom-select" onChange={categoryChange}>
-            <option selected>Category</option>
+          <select className="custom-select" onFocus={categoryChange} required>
+            <option value="others">Category</option>
             <option value="food">Food</option>
             <option value="petrol">Petrol</option>
             <option value="salary">Salary</option>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../Store/AuthContext";
 import { NavLink } from "react-router-dom";
 import "./SignUpForm.css";
+import { formatEmail } from "../Util/UserNameFormat";
 const LoginForm = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const LoginForm = () => {
       .then((res) => {
         if (res.status === 200) {
           console.log(res);
+          localStorage.setItem("userMail", res.data.email);
           authCtx.login(res.data.idToken);
           navigate("/home");
         }

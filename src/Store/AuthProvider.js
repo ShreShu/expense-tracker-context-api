@@ -46,6 +46,7 @@ const AuthProvider = (props) => {
   const logout = () => {
     dispatchLoginAction({ type: "LOGOUT" });
     localStorage.removeItem("token");
+    localStorage.removeItem("userMail");
   };
   const addExpense = (expenseItem) => {
     dispatchLoginAction({ type: "ADD_EXPENSE", expenseItem: expenseItem });
