@@ -11,3 +11,7 @@ border-bottom: 1px solid gray;
 .expenses__item{
     margin-top: 10px;
 }
+
+.expenses__item>button{
+    margin-left: 3px;
+}

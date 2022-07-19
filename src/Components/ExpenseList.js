@@ -4,7 +4,7 @@ import AuthContext from "../Store/AuthContext";
 import { formatEmail } from "../Util/UserNameFormat";
 import Expenses from "./Expenses";
 
-const ExpenseList = () => {
+const ExpenseList = ({ deleteEx, editEx }) => {
   const authCtx = useContext(AuthContext);
 
   const [expenses, setExpenses] = useState([]);
@@ -17,9 +17,9 @@ const ExpenseList = () => {
       )
       .then((res) => {
         let arrayOfObj = Object.keys(res.data)?.map((key) => {
-          return res.data[key];
+          return { ...res.data[key], key };
         });
-        console.log(arrayOfObj);
+
         setExpenses(arrayOfObj);
       })
       .catch((error) => {
@@ -32,9 +32,13 @@ const ExpenseList = () => {
       {expenses?.map((expense) => {
         return (
           <Expenses
+            key={expense.key}
+            id={expense.key}
             money={expense.money}
             description={expense.description}
             category={expense.category}
+            deleteEx={deleteEx}
+            editEx={editEx}
           />
         );
       })}

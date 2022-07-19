@@ -30,6 +30,13 @@ const loginReducer = (state, action) => {
       expenses: updatedExpense,
     };
   }
+  if (action.type === "UPDATE_EXPENSE") {
+    let updatedExpense = action.expenseItems;
+    return {
+      ...state,
+      expenses: updatedExpense,
+    };
+  }
 };
 
 const AuthProvider = (props) => {
@@ -52,6 +59,13 @@ const AuthProvider = (props) => {
     dispatchLoginAction({ type: "ADD_EXPENSE", expenseItem: expenseItem });
   };
 
+  const updateAllExp = (arrayOfObj) => {
+    dispatchLoginAction({
+      type: "UPDATE_EXPENSE",
+      expenseItems: arrayOfObj,
+    });
+  };
+
   const authContext = {
     tokenId: loginState.tokenId,
     isloggedin: loginState.isloggedin,
@@ -59,6 +73,7 @@ const AuthProvider = (props) => {
     logout: logout,
     addexpense: addExpense,
     expenses: loginState.expenses,
+    updateAllExp: updateAllExp,
   };
 
   return (
