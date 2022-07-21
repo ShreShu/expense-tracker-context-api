@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../Store/AuthContext";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { formatEmail } from "../Util/UserNameFormat";
 import "./ExpenseForm.css";
 const ExpenseForm = ({ edit, expenseId, setEdit }) => {
   const userEmail = formatEmail(localStorage.getItem("userMail"));
-  const authCtx = useContext(AuthContext);
+
+  const dispatch = useDispatch();
   const [description, setDescription] = useState("");
   const [money, setMoney] = useState("");
   const [category, setCategory] = useState("");
@@ -67,7 +68,10 @@ const ExpenseForm = ({ edit, expenseId, setEdit }) => {
               let arrayOfObj = Object.keys(res.data)?.map((key) => {
                 return { ...res.data[key], key };
               });
-              authCtx.updateAllExp(arrayOfObj);
+              dispatch({
+                type: "UPDATE_EXPENSE",
+                expenseItems: arrayOfObj,
+              });
             })
             .catch((error) => {
               console.log(error);
@@ -92,7 +96,10 @@ const ExpenseForm = ({ edit, expenseId, setEdit }) => {
           console.log(res);
           const key = res.data.name;
           resetForm();
-          authCtx.addexpense({ money, category, description, key });
+          dispatch({
+            type: "ADD_EXPENSE",
+            expenseItem: { money, category, description, key },
+          });
         })
         .catch((error) => {
           console.log(error);

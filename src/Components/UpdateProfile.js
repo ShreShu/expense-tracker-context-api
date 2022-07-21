@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./UpdateProfile.css";
 import axios from "axios";
-import AuthContext from "../Store/AuthContext";
+import { useSelector } from "react-redux";
 
 const UpdateProfile = () => {
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [mailIsVerified, setMailIsVerified] = useState();
-  const authCtx = useContext(AuthContext);
 
+  const tokenId = useSelector((state) => state.tokenId);
   const onNameChange = (e) => {
     console.log(e.target.value);
     setName(e.target.value);
@@ -23,7 +23,7 @@ const UpdateProfile = () => {
       .post(
         "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
         {
-          idToken: authCtx.tokenId,
+          idToken: tokenId,
         }
       )
       .then((res) => {
@@ -43,7 +43,7 @@ const UpdateProfile = () => {
       .post(
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
         {
-          idToken: authCtx.tokenId,
+          idToken: tokenId,
           displayName: name,
           photoUrl: photoUrl,
           returnSecureToken: true,
@@ -53,7 +53,7 @@ const UpdateProfile = () => {
         console.log(res);
       })
       .catch((error) => {
-        console.log();
+        console.log(error);
       });
   };
 
@@ -63,7 +63,7 @@ const UpdateProfile = () => {
         "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyD-IAdSLJd4wZwTTwKGww0WlQWonD4KNH0",
         {
           requestType: "VERIFY_EMAIL",
-          idToken: authCtx.tokenId,
+          idToken: tokenId,
         }
       )
       .then((res) => {

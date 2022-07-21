@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../Store/AuthContext";
 import { NavLink } from "react-router-dom";
 import "./SignUpForm.css";
 import { formatEmail } from "../Util/UserNameFormat";
+import { useDispatch } from "react-redux";
 const LoginForm = () => {
-  const authCtx = useContext(AuthContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +47,8 @@ const LoginForm = () => {
         if (res.status === 200) {
           console.log(res);
           localStorage.setItem("userMail", res.data.email);
-          authCtx.login(res.data.idToken);
+          localStorage.setItem("token", res.data.idToken);
+          dispatch({ type: "LOGIN", tokenId: res.data.idToken });
           navigate("/home");
         }
       })

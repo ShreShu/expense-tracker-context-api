@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../Store/AuthContext";
+import { useSelector } from "react-redux";
 import { formatEmail } from "../Util/UserNameFormat";
 import Expenses from "./Expenses";
 
 const ExpenseList = ({ deleteEx, editEx }) => {
-  const authCtx = useContext(AuthContext);
+  const expensesList = useSelector((state) => state.expenses);
 
   const [expenses, setExpenses] = useState([]);
   const userEmail = formatEmail(localStorage.getItem("userMail"));
@@ -25,7 +25,7 @@ const ExpenseList = ({ deleteEx, editEx }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [authCtx.expenses]);
+  }, [expensesList]);
 
   return (
     <div>

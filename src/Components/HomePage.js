@@ -1,32 +1,40 @@
 import React, { useContext, useState } from "react";
-import AuthContext from "../Store/AuthContext";
 import { NavLink } from "react-router-dom";
 import "./HomePage.css";
 import ExpenseForm from "./ExpenseForm";
 import ExpenseList from "./ExpenseList";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { formatEmail } from "../Util/UserNameFormat";
 
 const HomePage = () => {
-  const authCtx = useContext(AuthContext);
+  const dispatch = useDispatch();
   const userEmail = formatEmail(localStorage.getItem("userMail"));
   const [expenseId, setExpenseId] = useState();
   const [edit, setEdit] = useState(false);
-  const deleteEx = async (id) => {
-    const deleted = axios.delete(
-      `https://expense-tracker-4a29f-default-rtdb.firebaseio.com/${userEmail}/${id}.json`
-    );
-
+  const deleteEx = (id) => {
     axios
-      .get(
-        `https://expense-tracker-4a29f-default-rtdb.firebaseio.com/${userEmail}.json`
+      .delete(
+        `https://expense-tracker-4a29f-default-rtdb.firebaseio.com/${userEmail}/${id}.json`
       )
       .then((res) => {
-        console.log(res);
-        let arrayOfObj = Object.keys(res.data)?.map((key) => {
-          return { ...res.data[key], key };
-        });
-        authCtx.updateAllExp(arrayOfObj);
+        axios
+          .get(
+            `https://expense-tracker-4a29f-default-rtdb.firebaseio.com/${userEmail}.json`
+          )
+          .then((res) => {
+            console.log(res);
+            let arrayOfObj = Object.keys(res.data)?.map((key) => {
+              return { ...res.data[key], key };
+            });
+            dispatch({
+              type: "UPDATE_EXPENSE",
+              expenseItems: arrayOfObj,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);

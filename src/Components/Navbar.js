@@ -1,17 +1,21 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import AuthContext from "../Store/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const Navbar = () => {
-  const authCtx = useContext(AuthContext);
+  const isloggedin = useSelector((state) => state.isloggedin);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const loginlogoutHandler = () => {
-    if (!authCtx.isloggedin) {
+    if (!isloggedin) {
       navigate("/login");
     } else {
-      authCtx.logout();
+      dispatch({ type: "LOGOUT" });
+      localStorage.removeItem("token");
+      localStorage.removeItem("userMail");
+
       navigate("/login");
     }
   };
@@ -56,7 +60,7 @@ const Navbar = () => {
                 onClick={loginlogoutHandler}
                 className="nav-link btn btn-link"
               >
-                {authCtx.isloggedin ? "Logout" : "Login"}
+                {isloggedin ? "Logout" : "Login"}
               </button>
             </li>
           </ul>

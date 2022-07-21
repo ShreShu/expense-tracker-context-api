@@ -8,15 +8,16 @@ import LoginForm from "./Components/LoginForm";
 import HomePage from "./Components/HomePage";
 import UpdateProfile from "./Components/UpdateProfile";
 import ForgotPassword from "./Components/ForgotPassword";
-import AuthContext from "./Store/AuthContext";
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 
 function App() {
-  const authCtx = useContext(AuthContext);
+  const isloggedin = useSelector((state) => state.isloggedin);
+  console.log(isloggedin);
+  //const isloggedin = true;
 
   return (
     <div>
-      {authCtx.isloggedin && <Navbar />}
+      {isloggedin && <Navbar />}
 
       <Routes>
         <Route
@@ -35,8 +36,8 @@ function App() {
             </div>
           }
         />
-        {authCtx.isloggedin && <Route path="/home" element={<HomePage />} />}
-        {authCtx.isloggedin && (
+        {isloggedin && <Route path="/home" element={<HomePage />} />}
+        {isloggedin && (
           <Route path="/updateprofile" element={<UpdateProfile />} />
         )}
         <Route path="/forgotpassword" element={<ForgotPassword />} />
